@@ -16,7 +16,7 @@ matrix:
     - rust: nightly
 
 script:
-  - cargo test
+  - cargo test --verbose
 
 addons:
   apt:
