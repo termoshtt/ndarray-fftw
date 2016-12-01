@@ -1,4 +1,11 @@
+
+use num_complex::Complex;
 use ffi;
+
+#[allow(non_camel_case_types)]
+pub type c64 = Complex<f64>;
+#[allow(non_camel_case_types)]
+pub type c32 = Complex<f32>;
 
 #[derive(Clone, Copy, Debug)]
 pub enum R2RKind {

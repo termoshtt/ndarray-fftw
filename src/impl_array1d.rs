@@ -1,13 +1,13 @@
 
+use ndarray::{Array, Ix1};
 use ffi::*;
 use traits::*;
 
-impl RealArray for Vec<f64> {
-    type ComplexArray = Vec<c64>;
-
-    fn r2r(&self, flag: R2RKind) -> Vec<f64> {
+impl RealArray for Array<f64, Ix1> {
+    type ComplexArray = Array<c64, Ix1>;
+    fn r2r(&self, flag: R2RKind) -> Self {
         let n = self.len();
-        let mut out = vec![0.0; n];
+        let mut out = Array::zeros(n);
         unsafe {
             let plan = fftw_plan_r2r_1d(n as i32,
                                         self.as_ptr() as *mut _,
@@ -19,10 +19,9 @@ impl RealArray for Vec<f64> {
         }
         out
     }
-
-    fn r2c(&self) -> Vec<c64> {
+    fn r2c(&self) -> Self::ComplexArray {
         let n = self.len();
-        let mut out = vec![c64::new(0.0, 0.0); 1+n/2];
+        let mut out = Array::zeros(1 + n / 2);
         unsafe {
             let plan = fftw_plan_dft_r2c_1d(n as i32,
                                             self.as_ptr() as *mut _,
@@ -35,11 +34,11 @@ impl RealArray for Vec<f64> {
     }
 }
 
-impl ComplexArray for Vec<c64> {
-    type RealArray = Vec<f64>;
+impl ComplexArray for Array<c64, Ix1> {
+    type RealArray = Array<f64, Ix1>;
     fn c2r(&self) -> Self::RealArray {
         let n = (self.len() - 1) * 2;
-        let mut out = vec![0.0; n];
+        let mut out = Array::zeros(n);
         unsafe {
             let plan = fftw_plan_dft_c2r_1d(n as i32,
                                             self.as_ptr() as *mut _,
@@ -53,7 +52,7 @@ impl ComplexArray for Vec<c64> {
 
     fn c2c(&self, dir: C2CDirection) -> Self {
         let n = self.len();
-        let mut out = vec![c64::new(0.0, 0.0); n];
+        let mut out = Array::zeros(n);
         unsafe {
             let plan = fftw_plan_dft_1d(n as i32,
                                         self.as_ptr() as *mut _,
