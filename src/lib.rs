@@ -8,7 +8,7 @@ use ffi::*;
 #[allow(non_camel_case_types)]
 pub type c64 = num_complex::Complex<f64>;
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub enum R2RKind {
     R2HC,
     HC2R,
@@ -37,6 +37,21 @@ impl Into<u32> for R2RKind {
             R2RKind::DST01 => ffi::FFTW_RODFT01,
             R2RKind::DST10 => ffi::FFTW_RODFT10,
             R2RKind::DST11 => ffi::FFTW_RODFT11,
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug)]
+pub enum C2CDirection {
+    FORWARD,
+    BACKWARD,
+}
+
+impl Into<i32> for C2CDirection {
+    fn into(self) -> i32 {
+        match self {
+            C2CDirection::FORWARD => ffi::FFTW_FORWARD,
+            C2CDirection::BACKWARD => ffi::FFTW_BACKWARD,
         }
     }
 }
@@ -78,6 +93,21 @@ pub fn c2r(mut in_: Vec<c64>) -> Vec<f64> {
                                         in_.as_mut_ptr() as *mut _,
                                         out.as_mut_ptr(),
                                         FFTW_ESTIMATE);
+        fftw_execute(plan);
+        fftw_destroy_plan(plan);
+    }
+    out
+}
+
+pub fn c2c(mut in_: Vec<c64>, dir: C2CDirection) -> Vec<c64> {
+    let n = in_.len();
+    let mut out = vec![c64::new(0.0, 0.0); n];
+    unsafe {
+        let plan = fftw_plan_dft_1d(n as i32,
+                                    in_.as_mut_ptr() as *mut _,
+                                    out.as_mut_ptr() as *mut _,
+                                    dir.into(),
+                                    FFTW_ESTIMATE);
         fftw_execute(plan);
         fftw_destroy_plan(plan);
     }
