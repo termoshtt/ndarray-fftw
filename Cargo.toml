@@ -9,3 +9,8 @@ num-complex = "0.1.35"
 
 [dependencies.fftw3-sys]
 path = "fftw3-sys"
+
+[dev-dependencies]
+rand = "0.3.14"
+ndarray-rand = "0.3"
+float-cmp = "0.2.3"
