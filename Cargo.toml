@@ -5,7 +5,7 @@ authors = ["Toshiki Teramura <toshiki.teramura@gmail.com>"]
 
 [dependencies]
 ndarray = "0.7"
-num-complex = "*"
+num-complex = "0.1.35"
 
 [dependencies.fftw3-sys]
 path = "fftw3-sys"
