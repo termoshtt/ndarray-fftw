@@ -1,4 +1,3 @@
-
 use ffi;
 
 #[derive(Clone, Copy, Debug)]
@@ -47,4 +46,16 @@ impl Into<i32> for C2CDirection {
             C2CDirection::BACKWARD => ffi::FFTW_BACKWARD,
         }
     }
+}
+
+pub trait RealArray {
+    type ComplexArray;
+    fn r2r(&self, flag: R2RKind) -> Self;
+    fn r2c(&self) -> Self::ComplexArray;
+}
+
+pub trait ComplexArray {
+    type RealArray;
+    fn c2r(&self) -> Self::RealArray;
+    fn c2c(&self, dir: C2CDirection) -> Self;
 }

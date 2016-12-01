@@ -1,23 +1,12 @@
+
 use num_complex::Complex;
 use ffi::*;
-use types::*;
+use traits::*;
 
 #[allow(non_camel_case_types)]
 type c64 = Complex<f64>;
 #[allow(non_camel_case_types)]
 type c32 = Complex<f32>;
-
-pub trait RealArray {
-    type ComplexArray;
-    fn r2r(&self, flag: R2RKind) -> Self;
-    fn r2c(&self) -> Self::ComplexArray;
-}
-
-pub trait ComplexArray {
-    type RealArray;
-    fn c2r(&self) -> Self::RealArray;
-    fn c2c(&self, dir: C2CDirection) -> Self;
-}
 
 impl RealArray for Vec<f64> {
     type ComplexArray = Vec<c64>;
