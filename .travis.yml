@@ -21,4 +21,4 @@ script:
 addons:
   apt:
     packages:
-      - fftw3
+      - libfftw3-dev
