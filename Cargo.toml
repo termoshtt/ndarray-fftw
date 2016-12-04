@@ -5,7 +5,16 @@ authors = ["Toshiki Teramura <toshiki.teramura@gmail.com>"]
 
 [dependencies]
 ndarray = "0.7"
-num-complex = "*"
+num-complex = "0.1.35"
+num-traits = "*"
 
 [dependencies.fftw3-sys]
 path = "fftw3-sys"
+
+[dev-dependencies]
+rand = "0.3.14"
+ndarray-rand = "0.3"
+float-cmp = "0.2.3"
+
+[dev-dependencies.ndarray-numtest]
+git = "http://github.com/termoshtt/ndarray-numtest.git"
