@@ -15,3 +15,6 @@ path = "fftw3-sys"
 rand = "0.3.14"
 ndarray-rand = "0.3"
 float-cmp = "0.2.3"
+
+[dev-dependencies.ndarray-numtest]
+git = "http://github.com/termoshtt/ndarray-numtest.git"
